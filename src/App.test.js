@@ -69,6 +69,12 @@ test('renders increment button', () => {
   expect(button.length).toBe(1);
 });
 
+test('renders decrement button', () => {
+  const wrapper = setup();
+  const button = findByTestAttr(wrapper, 'decrement-button');
+  expect(button.length).toBe(1);
+});
+
 test('renders counter display', () => {
   const wrapper = setup();
   const display = findByTestAttr(wrapper, 'counter-display');
@@ -95,4 +101,70 @@ test('clicking button increments the counter display', () => {
 
 });
 
+test('clicking button decrements the counter display', () => {
+  const counter = 7;
+  const wrapper = setup(null, { counter });
+  
+  const button = findByTestAttr(wrapper, 'decrement-button');
+
+  button.simulate('click');
+
+  const display = findByTestAttr(wrapper, 'counter-display')
+
+  expect(display.text()).toContain(6);
+
+});
+
+test('the counter display doesnt go below 0', () => {
+  const counter = 0;
+  const wrapper = setup(null, { counter });
+  
+  const button = findByTestAttr(wrapper, 'decrement-button');
+
+  button.simulate('click');
+
+  const display = findByTestAttr(wrapper, 'counter-display')
+
+  expect(display.text()).toContain(0);
+
+});
+
+test('decrementing at 0 shows an error', () => {
+  const counter = 0;
+  const wrapper = setup(null, { counter });
+
+  //test the error message doesnt show
+  const errorBefore = findByTestAttr(wrapper, 'error-message');
+  expect(errorBefore.length).toBe(0);
+  
+  const button = findByTestAttr(wrapper, 'decrement-button');
+
+  button.simulate('click');
+
+  const errorAfter = findByTestAttr(wrapper, 'error-message');
+
+  expect(errorAfter.length).toBe(1);
+
+});
+
+test('incrementing removes the error', () => {
+  const state = {
+    counter: 0,
+    error: 'This is an error'
+  }
+
+  const wrapper = setup(null, state);
+
+  const errorBefore = findByTestAttr(wrapper, 'error-message');
+
+  expect(errorBefore.length).toBe(1);
+
+  const button = findByTestAttr(wrapper, 'increment-button');
+
+  button.simulate('click');
+
+  const errorAfter = findByTestAttr(wrapper, 'error-message');
+
+  expect(errorAfter.length).toBe(0);
+})
 
