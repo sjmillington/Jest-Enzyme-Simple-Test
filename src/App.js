@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import './App.css';
 
-function App() {
+class App extends Component {
 
-  const { counter, setCounter } = useState(0);
+  state = {
+    counter: 0
+  }
 
-  return (
-    <div data-test="component-app">
-      <h1>App</h1>
-       
-    </div>
-  );
+  render(){
+    return (
+      <div data-test="component-app">
+        <h1 data-test="counter-display">The counter is currently {this.state.counter}</h1>
+        <button 
+          data-test="increment-button" 
+          onClick={() => this.setState({counter: this.state.counter + 1})}
+          >
+            Increment
+        </button>
+      </div>
+    );
+  }
+ 
 }
 
 export default App;
