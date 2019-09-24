@@ -1,11 +1,14 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
 
 function App() {
+
+  const { counter, setCounter } = useState(0);
+
   return (
-    <div className="App">
-      <h1>Hello World </h1>
+    <div data-test="component-app">
+      <h1>App</h1>
+       
     </div>
   );
 }
